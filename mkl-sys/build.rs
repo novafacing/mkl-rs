@@ -49,10 +49,15 @@ fn main() -> Result<()> {
 
     println!("{library:?}");
 
-    let lib_paths = library.link_files.iter().filter_map(|p| p.parent()).collect::<HashSet<_>>();
+    let lib_paths = library.link_files.iter()
+        .filter_map(|p| p.parent().map(|p| p.to_path_buf()))
+        .chain(library.link_paths.iter().map(|p| p.to_path_buf()))
+        .collect::<HashSet<_>>();
 
-
-    println!("cargo:rustc-env=LD_LIBRARY_PATH={}", lib_paths.iter().map(|p| p.to_str().unwrap()).collect::<Vec<_>>().join(":"));
+    let ld_library_paths = lib_paths.iter()
+        .filter_map(|p| p.to_str())
+        .map(|p| p.to_string())
+        .collect::<Vec<_>>();
 
     let include_path = library.include_paths
         .first()
@@ -97,6 +102,13 @@ fn main() -> Result<()> {
     if cfg!(feature = "dynamic-ilp64-gomp") || cfg!(feature = "dynamic-lp64-gomp") || cfg!(feature = "static-ilp64-gomp") || cfg!(feature = "static-lp64-gomp") {
         println!("cargo:rustc-link-lib=gomp");
     }
+
+    // Link to iomp if a iomp feature is enabled
+    if cfg!(feature = "static-ilp64-iomp") || cfg!(feature = "static-lp64-iomp") {
+        println!("cargo:rustc-link-lib=iomp5");
+    }
+
+    println!("cargo:rustc-env=LD_LIBRARY_PATH={}", ld_library_paths.join(":"));
 
     Ok(())
 }

@@ -18,7 +18,7 @@ jobs:
       - name: Install Cargo Hack
         run: |
           cargo install cargo-hack
-      - name: Install Intel MKL
+      - name: Install Dependencies
         run: |
           cat > /etc/yum.repos.d/oneAPI.repo <<EOF
           [oneAPI]
@@ -31,7 +31,20 @@ jobs:
           EOF
 
           dnf -y update && \
-            dnf -y install intel-oneapi-mkl intel-oneapi-mkl-devel
-      - name: Test Build
+            dnf -y install intel-oneapi-mkl \
+              intel-oneapi-mkl-devel \
+              intel-oneapi-compiler-shared-runtime-2024.0 \
+              intel-oneapi-openmp-common-2024.0 \
+              intel-oneapi-openmp-2024.0 \
+              libomp \
+              libgomp \
+              libgomp-devel \
+              gcc \
+              g++ \
+              pkgconf-pkg-config
+      - name: Build
         run: |
-          cargo hack build --each-feature --exclude-no-default-features
+          cargo hack build --each-feature --exclude-no-default-features --exclude-all-features
+      - name: Test
+        run: |
+          cargo hack test --each-feature --exclude-no-default-features --exclude-all-features
