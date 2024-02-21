@@ -34,4 +34,6 @@ static-ilp64-seq = []
 static-lp64-gomp = []
 static-lp64-iomp = []
 static-lp64-seq = []
+sdl = []
+default = ["sdl"]
 # NOTE: Do not support SDL
