@@ -1,7 +1,7 @@
 use anyhow::{anyhow, Result};
 use pkg_config::Config;
 use bindgen::{MacroTypeVariation, NonCopyUnionStyle, EnumVariation, AliasVariation, FieldVisibilityKind, Builder};
-use std::{path::PathBuf, env::var};
+use std::{collections::HashSet, path::PathBuf, env::var};
 
 const OUT_DIR_ENV: &str = "OUT_DIR";
 const MINIMUM_VERSION: &str = "2024";
@@ -47,6 +47,13 @@ fn main() -> Result<()> {
         .atleast_version(MINIMUM_VERSION)
         .probe(CONFIG)?;
 
+    println!("{library:?}");
+
+    let lib_paths = library.link_files.iter().filter_map(|p| p.parent()).collect::<HashSet<_>>();
+
+
+    println!("cargo:rustc-env=LD_LIBRARY_PATH={}", lib_paths.iter().map(|p| p.to_str().unwrap()).collect::<Vec<_>>().join(":"));
+
     let include_path = library.include_paths
         .first()
         .ok_or_else(|| anyhow!("No include path found"))?;
@@ -74,6 +81,7 @@ fn main() -> Result<()> {
         .derive_eq(true)
         .derive_partialeq(true)
         .generate_comments(true)
+        // Uses 128-bit unstable
         .blocklist_function("strtold")
         .blocklist_function("qecvt")
         .blocklist_function("qfcvt")
@@ -84,6 +92,11 @@ fn main() -> Result<()> {
         .generate()
         .map_err(|e| anyhow!("Failed to generate bindings: {}", e))?
         .write_to_file(PathBuf::from(var(OUT_DIR_ENV)?).join("bindings.rs"))?;
+
+    // Link to gomp if a gomp feature is enabled
+    if cfg!(feature = "dynamic-ilp64-gomp") || cfg!(feature = "dynamic-lp64-gomp") || cfg!(feature = "static-ilp64-gomp") || cfg!(feature = "static-lp64-gomp") {
+        println!("cargo:rustc-link-lib=gomp");
+    }
 
     Ok(())
 }

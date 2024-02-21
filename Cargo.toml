@@ -20,5 +20,3 @@ resolver = "2"
 members = ["mkl-sys"]
 default-members = ["mkl-sys"]
 exclude = []
-
-[workspace.dependencies]

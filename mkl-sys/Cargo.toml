@@ -18,6 +18,9 @@ anyhow = "1.0.79"
 bindgen = "0.69.2"
 pkg-config = "0.3.30"
 
+[dev-dependencies]
+rand = "0.9.0-alpha.0"
+
 [features]
 dynamic-ilp64-gomp = []
 dynamic-ilp64-iomp = []
