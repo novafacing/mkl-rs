@@ -10,19 +10,11 @@ categories = [
     "hardware-support",
     "external-ffi-bindings",
 ]
-description = "MKL bindings for rust"
+description = "MKL bindings for Rust"
 documentation = "https://github.com/novafacing/mkl-rs"
 edition = "2021"
 homepage = "https://github.com/novafacing/mkl-rs"
-keywords = [
-    "science",
-    "mathematics",
-    "hardware-support",
-    "external-ffi-bindings",
-    "Intel",
-    "Math Kernel Library",
-    "mkl",
-]
+keywords = ["science", "mathematics", "ai", "hpc"]
 license = "Apache-2.0"
 publish = true
 readme = "README.md"

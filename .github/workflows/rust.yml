@@ -14,10 +14,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@nightly
-      - name: Install Cargo Hack
-        run: |
-          cargo install cargo-hack
       - name: Install Dependencies
         run: |
           cat > /etc/yum.repos.d/oneAPI.repo <<EOF
@@ -42,6 +38,10 @@ jobs:
               gcc \
               g++ \
               pkgconf-pkg-config
+      - uses: dtolnay/rust-toolchain@nightly
+      - name: Install Cargo Hack
+        run: |
+          cargo install cargo-hack
       - name: Build
         run: |
           cargo hack build --each-feature --exclude-no-default-features --exclude-all-features
