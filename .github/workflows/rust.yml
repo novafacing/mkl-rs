@@ -1,0 +1,37 @@
+---
+name: Build
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  build:
+    name: Build
+    container: fedora:39
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@nightly
+      - name: Install Cargo Hack
+        run: |
+          cargo install cargo-hack
+      - name: Install Intel MKL
+        run: |
+          cat > /etc/yum.repos.d/oneAPI.repo <<EOF
+          [oneAPI]
+          name=Intel® oneAPI repository
+          baseurl=https://yum.repos.intel.com/oneapi
+          enabled=1
+          gpgcheck=1
+          repo_gpgcheck=1
+          gpgkey=https://yum.repos.intel.com/intel-gpg-keys/GPG-PUB-KEY-INTEL-SW-PRODUCTS.PUB
+          EOF
+
+          dnf -y update && \
+            dnf -y install intel-oneapi-mkl intel-oneapi-mkl-devel
+      - name: Test Build
+        run: |
+          cargo hack build --each-feature --exclude-no-default-features

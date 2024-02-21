@@ -1,0 +1,24 @@
+# Copyright (C) 2023 Intel Corporation
+# SPDX-License-Identifier: Apache-2.0
+
+[workspace.package]
+authors = ["Rowan Hart <rowan.hart@intel.com>"]
+# https://crates.io/category_slugs
+categories = ["hpc"]
+description = "MKL bindings for rust"
+documentation = ""
+edition = "2021"
+homepage = ""
+keywords = []
+license = "Apache-2.0"
+publish = false
+readme = "README.md"
+repository = ""
+
+[workspace]
+resolver = "2"
+members = ["mkl-sys"]
+default-members = ["mkl-sys"]
+exclude = []
+
+[workspace.dependencies]
