@@ -4,19 +4,32 @@
 [workspace.package]
 authors = ["Rowan Hart <rowan.hart@intel.com>"]
 # https://crates.io/category_slugs
-categories = ["hpc"]
+categories = [
+    "science",
+    "mathematics",
+    "hardware-support",
+    "external-ffi-bindings",
+]
 description = "MKL bindings for rust"
-documentation = ""
+documentation = "https://github.com/novafacing/mkl-rs"
 edition = "2021"
-homepage = ""
-keywords = []
+homepage = "https://github.com/novafacing/mkl-rs"
+keywords = [
+    "science",
+    "mathematics",
+    "hardware-support",
+    "external-ffi-bindings",
+    "Intel",
+    "Math Kernel Library",
+    "mkl",
+]
 license = "Apache-2.0"
 publish = false
 readme = "README.md"
-repository = ""
+repository = "https://github.com/novafacing/mkl-rs"
 
 [workspace]
 resolver = "2"
-members = ["mkl-sys"]
-default-members = ["mkl-sys"]
+members = ["mkl-rs-sys"]
+default-members = ["mkl-rs-sys"]
 exclude = []
