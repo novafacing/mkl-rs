@@ -22,6 +22,9 @@ repository = "https://github.com/novafacing/mkl-rs"
 
 [workspace]
 resolver = "2"
-members = ["mkl-rs-sys"]
-default-members = ["mkl-rs-sys"]
+members = ["mkl-rs-build", "mkl-rs-sys"]
+default-members = ["mkl-rs-sys", "mkl-rs-build"]
 exclude = []
+
+[workspace.dependencies]
+mkl-rs-build = { path = "mkl-rs-build" }
