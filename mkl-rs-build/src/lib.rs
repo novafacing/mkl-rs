@@ -1,10 +1,17 @@
 use anyhow::{anyhow, Result};
 use pkg_config::Config;
 use bindgen::{MacroTypeVariation, NonCopyUnionStyle, EnumVariation, AliasVariation, FieldVisibilityKind, Builder};
-use std::{collections::HashSet, path::PathBuf, env::var};
+use std::{collections::HashSet, path::PathBuf, env::{var, set_var}};
 
 const OUT_DIR_ENV: &str = "OUT_DIR";
 const MINIMUM_VERSION: &str = "2024";
+
+/// Build MKL with the given configuration environment variable feature
+/// e.g. `build_with("CARGO_FEATURE_STATIC_ILP64_IOMP");`
+pub fn build_with(config: &str) -> Result<()> {
+    set_var(config, "1");
+    build()
+}
 
 /// Emit link and pkg-config information for linking MKL
 pub fn build() -> Result<()> {
@@ -39,9 +46,18 @@ pub fn build() -> Result<()> {
 
     };
 
-    let library = Config::new()
-        .atleast_version(MINIMUM_VERSION)
-        .probe(config)?;
+    let library = if config.contains("dynamic") {
+        Config::new()
+            .atleast_version(MINIMUM_VERSION)
+            .probe(config)?
+    } else {
+        Config::new()
+            .atleast_version(MINIMUM_VERSION)
+            .statik(true)
+            .probe(config)?
+    };
+
+    println!("cargo:warning={library:?}");
 
     let lib_paths = library.link_files.iter()
         .filter_map(|p| p.parent().map(|p| p.to_path_buf()))
