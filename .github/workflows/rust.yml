@@ -36,6 +36,9 @@ jobs:
               libgomp \
               gcc \
               g++ \
+              clang \
+              clang-devel \
+              clang-libs \
               pkgconf-pkg-config
       - uses: dtolnay/rust-toolchain@nightly
       - name: Install Cargo Hack
