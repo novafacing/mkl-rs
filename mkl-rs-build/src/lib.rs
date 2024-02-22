@@ -1,7 +1,7 @@
 use anyhow::{anyhow, Result};
 use pkg_config::Config;
 use bindgen::{MacroTypeVariation, NonCopyUnionStyle, EnumVariation, AliasVariation, FieldVisibilityKind, Builder};
-use std::{collections::HashSet, fs::write, path::PathBuf, env::var};
+use std::{collections::HashSet, path::PathBuf, env::var};
 
 const OUT_DIR_ENV: &str = "OUT_DIR";
 const MINIMUM_VERSION: &str = "2024";
