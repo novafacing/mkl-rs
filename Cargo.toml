@@ -27,4 +27,4 @@ default-members = ["mkl-rs-sys", "mkl-rs-build"]
 exclude = []
 
 [workspace.dependencies]
-mkl-rs-build = { path = "mkl-rs-build" }
+mkl-rs-build = { version = "0.3.0", path = "mkl-rs-build" }

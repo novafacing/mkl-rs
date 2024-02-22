@@ -15,7 +15,7 @@ repository.workspace = true
 
 [build-dependencies]
 anyhow = "1.0.79"
-mkl-rs-build = { version = "0.3.0", workspace = true }
+mkl-rs-build = { workspace = true }
 
 [dev-dependencies]
 rand = "0.9.0-alpha.0"
