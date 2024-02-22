@@ -1,12 +1,9 @@
-use anyhow::{anyhow, Result};
-use std::{collections::HashSet, fs::write, path::PathBuf, env::var};
+use anyhow::Result;
 use mkl_rs_build::build;
-
-const OUT_DIR_ENV: &str = "OUT_DIR";
-const MINIMUM_VERSION: &str = "2024";
 
 macro_rules! mkl_config {
     ($cfg:literal) => {
+        #[allow(unused)]
         #[cfg(feature = $cfg)]
         const CONFIG: &str = concat!("mkl-", $cfg);
     };
