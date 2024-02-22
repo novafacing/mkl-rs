@@ -34,7 +34,6 @@ jobs:
               intel-oneapi-openmp-2024.0 \
               libomp \
               libgomp \
-              libgomp-devel \
               gcc \
               g++ \
               pkgconf-pkg-config
