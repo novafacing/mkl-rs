@@ -1,8 +1,5 @@
-# Copyright (C) 2023 Intel Corporation
-# SPDX-License-Identifier: Apache-2.0
-
 [workspace.package]
-authors = ["Rowan Hart <rowan.hart@intel.com>"]
+authors = ["Rowan Hart <rowanbhart@gmail.com>"]
 # https://crates.io/category_slugs
 categories = [
     "science",
