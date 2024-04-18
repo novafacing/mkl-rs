@@ -46,7 +46,10 @@ jobs:
           cargo install cargo-hack
       - name: Build
         run: |
-          cargo hack build --each-feature --exclude-no-default-features --exclude-all-features
+          cargo hack build --each-feature --exclude-no-default-features \
+            --exclude-all-features
       - name: Test
         run: |
-          cargo hack test --each-feature --exclude-no-default-features --exclude-all-features
+          cargo hack test --each-feature --exclude-no-default-features \
+            --exclude-all-features -F \
+            dynamic-ilp64-bomp,dynamic-ilp64-iomp,dynamic-ilp64-seq,dynamic-lp64-gomp,dynamic-lp64-iomp,dynamic-lp64-seq
